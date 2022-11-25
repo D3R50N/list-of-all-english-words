@@ -20,14 +20,27 @@ app.listen(config.port, () => {
         list = data.split("\r\n");
     });
 
-    app.get('/', (req, res) => {
+    
+    app.use('/', (req, res, next) => {
+        if(req.method=="POST")
+        res.set("search", req.body.search)
+        next();
+
+    }, (req, res) => {
+
         if (parseInt(req.query.index) <= 0) {
            return res.redirect("/")
         }
         else if (parseInt(req.query.index) >= list.length) {
             return res.redirect("/")
         }
-        res.render('index', { list: list, index: req.query.index||0 });
+        if (res.getHeader("search") && res.getHeader("search") != "undefined" && res.getHeader("search")!="null") {
+            let text = res.getHeader("search").trim();
+            let temp = list;
+            return res.render('index', { list: temp.filter((e) => e.toLowerCase().includes(text.toLowerCase( )) ), index: req.query.index || 0 });
+
+        }
+       return res.render('index', { list: list, index: req.query.index || 0 });
     });
     app.get('/words', (req, res) => {
         res.json(list);

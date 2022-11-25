@@ -70,10 +70,11 @@ a{
    
     <div class="container">
       <div class="words">
-        <h1>Words list (<%=parseInt(index)+100+"/"+list.length%>)</h1>
-        <input type="search" id="search" />
-        <button>Search</button>
-        
+        <h1>Words list (<%=Math.min(list.length, parseInt(index)+100)+"/"+list.length%>)</h1>
+        <form id="form" action="/" method="post">
+            <input type="text" name="search" />
+        <button id="btn-s" type="submit">Search</button>
+        </form >
         <% if(index>0){%>
         <a href="/?index=<%=parseInt(index)-100%>">
             <button>Prev.</button>
@@ -123,8 +124,7 @@ a{
     </div>
 
     <script>
-       
-      
+ 
       // alert(list.split(','));
     </script>
   </body>
