@@ -1,0 +1,7 @@
+{
+    "restartable": "rs", 
+    "delay": 3000, 
+    "ignore":[
+        "logs/"
+    ]
+}

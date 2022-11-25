@@ -3,5 +3,27 @@
     "body-parser": "^1.20.1",
     "dotenv": "^16.0.3",
     "express": "^4.18.2"
-  }
+  },
+  "name": "list-of-all-english-words",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "server": "nodemon index.js",
+    "config": "nodemon --config nodemon.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/D3R50N/list-of-all-english-words.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/D3R50N/list-of-all-english-words/issues"
+  },
+  "homepage": "https://github.com/D3R50N/list-of-all-english-words#readme",
+  "description": ""
 }
