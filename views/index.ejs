@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        background-color: #f5f5f5;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .api> ul li {
+        padding: 10px;
+        transition-duration: 0.2s;
+      }
+a{
+        text-decoration: none;
+
+}
+      .api> ul li a {
+        color: #4242c6;
+        transition-duration: 0.2s;
+
+      }
+
+     .api> ul li:hover {
+        background-color: #4242c6;
+        color: white;
+        transform: scale(1.05);
+      }
+      .api >ul li:hover a{
+        color: white;
+      }
+      .hidden {
+        display: none;
+      }
+      .container {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        justify-content: space-around;
+        height: 100vh;
+      }
+      .words {
+        width: 50%;
+      }
+      .words > ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: left;
+      }
+      .word {
+        padding: 10px;
+        margin: 5px;
+        background-color: rgba(6, 57, 80, 0.02);
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+   
+    <div class="container">
+      <div class="words">
+        <h1>Words list (<%=parseInt(index)+100+"/"+list.length%>)</h1>
+        <input type="search" id="search" />
+        <button>Search</button>
+        
+        <% if(index>0){%>
+        <a href="/?index=<%=parseInt(index)-100%>">
+            <button>Prev.</button>
+        </a>
+        <%}%>
+        <a href="/?index=<%=parseInt(index)+100%>">
+            <button>Next</button>
+        </a>
+        <ul>
+          <% for (let i = index; i < Math.min(list.length, parseInt(index)+100); i++) { %>
+          <li class="word"><%= list[i] %></li>
+          <% } %>
+        </ul>
+      </div>
+      <div class="api">
+        <h1>API</h1>
+        <ul>
+          <li>
+            <a href="/words">Words list</a>
+          </li>
+          <li>
+            <a href="/words/count">How many words in the list ?</a>
+          </li>
+          <li>
+            <a href="/words/sortby/length">Sort words by length</a>
+          </li>
+          <li>
+            <a href="/words/groupby/length">Group words by length</a>
+          </li>
+        </ul>
+        <hr>
+        <h1>Documentation</h1>
+        <code>
+            <b><u>Routes</u></b>
+            <ul>
+                <li>/words </li>
+          
+            <li>/words/count</li>
+          
+            <li>/words/sortby/length</li>
+          
+            <li>/words/groupby/length</li>
+            </ul>
+        </ul>
+        </code>
+      </div>
+    </div>
+
+    <script>
+       
+      
+      // alert(list.split(','));
+    </script>
+  </body>
+</html>

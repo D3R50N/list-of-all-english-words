@@ -9,6 +9,8 @@ var list = [];
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.set("view engine", "ejs");
+
 
 app.listen(config.port, () => {
     console.log(`Server running on http://localhost:${config.port}`);
@@ -18,6 +20,15 @@ app.listen(config.port, () => {
         list = data.split("\r\n");
     });
 
+    app.get('/', (req, res) => {
+        if (parseInt(req.query.index) <= 0) {
+           return res.redirect("/")
+        }
+        else if (parseInt(req.query.index) >= list.length) {
+            return res.redirect("/")
+        }
+        res.render('index', { list: list, index: req.query.index||0 });
+    });
     app.get('/words', (req, res) => {
         res.json(list);
         fs.writeFileSync('logs/words.json', '[' + list + ']');
@@ -29,23 +40,25 @@ app.listen(config.port, () => {
     });
 
     app.get('/words/sortby/length', (req, res) => {
-        list.sort((a, b) => {
+        let temp = list;
+        temp.sort((a, b) => {
             return a.length - b.length;
         });
-        res.json(list);
-        fs.writeFileSync('logs/words_sortedby_length.json', "[" + list + "]");
+        res.json(temp);
+        fs.writeFileSync('logs/words_sortedby_length.json', "[" + temp + "]");
 
     });
     app.get('/words/groupby/length', (req, res) => {
-        list.sort((a, b) => {
+        let temp = list;
+        temp.sort((a, b) => {
             return a.length - b.length;
         });
         var result = {};
-        var minLength = list[0].length;
-        var maxLength = list[list.length - 1].length;
+        var minLength = temp[0].length;
+        var maxLength = temp[temp.length - 1].length;
 
         for (let length = minLength; length <= maxLength; length++) {
-            result[length] = list.filter(word => word.length == length);
+            result[length] = temp.filter(word => word.length == length);
         }
 
         res.json(result);
