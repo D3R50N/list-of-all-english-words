@@ -21,27 +21,30 @@ app.listen(config.port, () => {
     });
 
     
-    app.use('/', (req, res, next) => {
-        if(req.method=="POST")
-        res.set("search", req.body.search)
+    const getSearchText = (req, res, next) => {
+        if (req.method == "POST")
+            res.set("search", req.body.search);
         next();
 
-    }, (req, res) => {
+    };
+    const renderIndex = (req, res) => {
 
         if (parseInt(req.query.index) <= 0) {
-           return res.redirect("/")
+            return res.redirect("/");
         }
         else if (parseInt(req.query.index) >= list.length) {
-            return res.redirect("/")
+            return res.redirect("/");
         }
-        if (res.getHeader("search") && res.getHeader("search") != "undefined" && res.getHeader("search")!="null") {
+        if (res.getHeader("search") && res.getHeader("search") != "undefined" && res.getHeader("search") != "null") {
             let text = res.getHeader("search").trim();
             let temp = list;
-            return res.render('index', { list: temp.filter((e) => e.toLowerCase().includes(text.toLowerCase( )) ), index: req.query.index || 0 });
+            return res.render('index', { list: temp.filter((e) => e.toLowerCase().includes(text.toLowerCase())), index: req.query.index || 0 });
 
         }
-       return res.render('index', { list: list, index: req.query.index || 0 });
-    });
+        return res.render('index', { list: list, index: req.query.index || 0 });
+    };
+    app.get('/',  renderIndex);
+    app.post('/', getSearchText, renderIndex);
     app.get('/words', (req, res) => {
         res.json(list);
         fs.writeFileSync('logs/words.json', '[' + list + ']');
@@ -53,7 +56,7 @@ app.listen(config.port, () => {
     });
 
     app.get('/words/sortby/length', (req, res) => {
-        let temp = list;
+        let temp = list.flat();
         temp.sort((a, b) => {
             return a.length - b.length;
         });
@@ -62,7 +65,7 @@ app.listen(config.port, () => {
 
     });
     app.get('/words/groupby/length', (req, res) => {
-        let temp = list;
+        let temp = list.flat();
         temp.sort((a, b) => {
             return a.length - b.length;
         });
